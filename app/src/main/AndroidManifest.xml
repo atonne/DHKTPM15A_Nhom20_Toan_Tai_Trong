@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DHKTPM15A_Nhom20_Toan_Tai_Trong">
+
         <activity
-            android:name=".MainActivity"
+            android:name=".dangnhap"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
