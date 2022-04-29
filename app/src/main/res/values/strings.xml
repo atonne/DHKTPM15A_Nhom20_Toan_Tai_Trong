@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">DHKTPM15A_Nhom20_Toan_Tai_Trong</string>
+    <string name="your_string_here">
+    <u>Đăng ký ngay</u>
+</string>
+
+    <string name="dangnhap">
+    <u>Đăng nhập</u>
+</string>
+
+
+    <string name="or">
+    <u>       </u> Or <u>        </u>
+</string>
 </resources>

@@ -3,9 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/accout_icon.xml" value="0.19907407407407407" />
+        <entry key="app/src/main/res/drawable/botronbutton.xml" value="0.19907407407407407" />
+        <entry key="app/src/main/res/drawable/btn_account.xml" value="0.19907407407407407" />
+        <entry key="app/src/main/res/drawable/btn_google.xml" value="0.19907407407407407" />
         <entry key="app/src/main/res/drawable/btn_gradient.xml" value="0.20185185185185187" />
+        <entry key="app/src/main/res/drawable/btn_pink.xml" value="0.19907407407407407" />
         <entry key="app/src/main/res/drawable/input_gradient.xml" value="0.20185185185185187" />
+        <entry key="app/src/main/res/drawable/radius_top_1.xml" value="0.19907407407407407" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="1.1613098119961918" />
+        <entry key="app/src/main/res/layout/trang_chu.xml" value="0.165" />
       </map>
     </option>
   </component>

@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DHKTPM15A_Nhom20_Toan_Tai_Trong">
         <activity
-            android:name=".MainActivity"
+            android:name=".TrangChu"
+            android:exported="false" />
+        <activity
+            android:name=".dangki"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
