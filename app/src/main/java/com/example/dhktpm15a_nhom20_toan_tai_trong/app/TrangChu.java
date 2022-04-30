@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.dhktpm15a_nhom20_toan_tai_trong.R;
@@ -20,13 +22,14 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrangChu extends AppCompatActivity {
+public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
     private  List<Note> lsNote;
 
     private NoteDAO noteDAO;
     private UserDAO userDAO;
     private String emailUser;
     private User userLogin;
+    private EditText txtSearch;
 
     private Button btnAccount,btnAddNote,btnLogOut;
 
@@ -41,6 +44,9 @@ public class TrangChu extends AppCompatActivity {
         btnAccount = findViewById(R.id.btnAccount);
         btnAddNote = findViewById(R.id.btnAddNote);
         btnLogOut = findViewById(R.id.btnLogOut);
+
+        txtSearch =  findViewById(R.id.txtSearch);
+        txtSearch.setOnKeyListener(this);
 
 
         Intent intent = getIntent();
@@ -65,17 +71,20 @@ public class TrangChu extends AppCompatActivity {
 
         lsNote = new ArrayList<Note>();
 
-        showListNote();
+        showListNote("");
 
         clickAccount(userLogin);
         clickbtnLogOut();
     }
 
-    private void showListNote() {
+    private void showListNote(String s) {
 
 
+        if(s.length() == 0)
+            lsNote = noteDAO.getListNoteFromIdUser(userLogin.getIdUser());
+        else if(s.equalsIgnoreCase("SEARCH"))
+            lsNote = getListSearch();
 
-        lsNote = noteDAO.getListNoteFromIdUser(userLogin.getIdUser());
         if(lsNote != null && lsNote.size() != 0){
             ListView listView = findViewById(R.id.lvNote);
 
@@ -84,6 +93,35 @@ public class TrangChu extends AppCompatActivity {
 
 
         }
+    }
+
+    public List<Note> getListSearch(){
+
+        String textSearch = txtSearch.getText().toString().trim();
+       List<Note> ls = noteDAO.getListNoteFromIdUser(userLogin.getIdUser());;
+        List<Note> lsTemp = new ArrayList<Note>();
+        for (Note n : ls){
+            if(n.getName().contains(textSearch)){
+                lsTemp.add(n);
+            }
+        }
+
+        return  lsTemp;
+
+
+
+    }
+    @Override
+    public boolean onKey(View view, int i, KeyEvent keyEvent) {
+        if(view.getId() == R.id.txtSearch
+                && keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                && i == KeyEvent.KEYCODE_ENTER
+        ){
+            showListNote("SEARCH");
+
+
+        }
+        return false;
     }
 
 

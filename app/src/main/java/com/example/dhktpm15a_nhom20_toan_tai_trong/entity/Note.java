@@ -1,7 +1,10 @@
 package com.example.dhktpm15a_nhom20_toan_tai_trong.entity;
 
 import androidx.room.Entity;
+import androidx.room.Fts4;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
 
 @Entity(tableName = "Note")
 public class Note {
