@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/accout_icon.xml" value="0.19907407407407407" />
+        <entry key="app/src/main/res/drawable/bg_input_timkiem.xml" value="0.19537037037037036" />
+        <entry key="app/src/main/res/drawable/border_gradient.xml" value="0.19537037037037036" />
         <entry key="app/src/main/res/drawable/botronbutton.xml" value="0.19907407407407407" />
         <entry key="app/src/main/res/drawable/btn_account.xml" value="0.19907407407407407" />
         <entry key="app/src/main/res/drawable/btn_google.xml" value="0.19907407407407407" />
@@ -12,6 +14,7 @@
         <entry key="app/src/main/res/drawable/input_gradient.xml" value="0.20185185185185187" />
         <entry key="app/src/main/res/drawable/radius_top_1.xml" value="0.19907407407407407" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="1.1613098119961918" />
+        <entry key="app/src/main/res/layout/item_note.xml" value="0.165" />
         <entry key="app/src/main/res/layout/trang_chu.xml" value="0.165" />
       </map>
     </option>
