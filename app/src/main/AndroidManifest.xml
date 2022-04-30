@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.dhktpm15a_nhom20_toan_tai_trong">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DHKTPM15A_Nhom20_Toan_Tai_Trong">
-
+        <activity
+            android:name=".ChiTietNode"
+            android:exported="false" />
         <activity
             android:name=".dangnhap"
             android:exported="true">
@@ -19,10 +23,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".dangki"/>
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".ChiTietTaiKhoan"/>
-
+        <activity android:name=".dangki" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".ChiTietTaiKhoan" />
     </application>
 
 </manifest>
