@@ -24,7 +24,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class dangnhap extends AppCompatActivity {
-    TextView tvdangky;
+    TextView tvdangky,tvquenmk;
     ImageView imggoole;
     EditText txtemail,txtpass;
     Button btnlogin;
@@ -39,6 +39,7 @@ public class dangnhap extends AppCompatActivity {
         anhxa();
         createrequest();
 
+        //dangki
         tvdangky.setPaintFlags(tvdangky.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tvdangky.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +48,9 @@ public class dangnhap extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        //tvquenmk
+        tvquenmk.setPaintFlags(tvdangky.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         imggoole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,6 +71,7 @@ public class dangnhap extends AppCompatActivity {
         txtemail=findViewById(R.id.txtmail);
         txtpass=findViewById(R.id.txtpass);
         btnlogin=findViewById(R.id.btndangnhap);
+        tvquenmk=findViewById(R.id.tvquenmk);
 
     }
     private void createrequest() {
