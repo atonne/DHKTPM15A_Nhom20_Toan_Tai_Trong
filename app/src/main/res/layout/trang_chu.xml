@@ -5,22 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/red"
-    tools:context=".TrangChu">
+    tools:context=".app.TrangChu">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="638dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
         android:background="@drawable/radius_top_1"
         android:padding="10dp"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/editTextTextPersonName5"
@@ -51,22 +50,19 @@
             app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName5" />
 
         <Button
-            android:id="@+id/btnPlus"
+            android:id="@+id/btnAddNote"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@drawable/btn_plus"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-
-
             app:layout_constraintTop_toBottomOf="@+id/lvNote"
             tools:ignore="SpeakableTextPresentCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/btnAccount"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:background="@drawable/btn_account"
@@ -76,13 +72,13 @@
         app:layout_constraintHorizontal_bias="0.046"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.695"
+        app:layout_constraintVertical_bias="0.533"
 
-        app:src="@drawable/account_icon"
+
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/btnLogOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_pink"
@@ -92,10 +88,10 @@
         android:text="Đăng xuất"
         android:textAllCaps="false"
         android:textColor="@color/dark_red"
-        app:layout_constraintBottom_toBottomOf="@+id/button5"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAccount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.927"
-        app:layout_constraintStart_toEndOf="@+id/button5"
-        app:layout_constraintTop_toTopOf="@+id/button5"
+        app:layout_constraintStart_toEndOf="@+id/btnAccount"
+        app:layout_constraintTop_toTopOf="@+id/btnAccount"
         app:layout_constraintVertical_bias="0.355" />
 </androidx.constraintlayout.widget.ConstraintLayout>

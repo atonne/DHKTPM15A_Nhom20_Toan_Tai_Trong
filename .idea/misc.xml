@@ -3,12 +3,31 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
         <entry key="app/src/main/res/drawable/accout_icon.xml" value="0.19907407407407407" />
         <entry key="app/src/main/res/drawable/bg_input_timkiem.xml" value="0.19537037037037036" />
         <entry key="app/src/main/res/drawable/border_gradient.xml" value="0.19537037037037036" />
         <entry key="app/src/main/res/drawable/botronbutton.xml" value="0.19907407407407407" />
         <entry key="app/src/main/res/drawable/btn_account.xml" value="0.19907407407407407" />
         <entry key="app/src/main/res/drawable/btn_google.xml" value="0.19907407407407407" />
+=======
+        <entry key="..\:/MobileAppNote/DHKTPM15A_Nhom20_Toan_Tai_Trong/app/src/main/res/drawable/botronbutton.xml" value="0.197" />
+        <entry key="..\:/MobileAppNote/DHKTPM15A_Nhom20_Toan_Tai_Trong/app/src/main/res/drawable/btn_picture.xml" value="0.155" />
+        <entry key="..\:/MobileAppNote/DHKTPM15A_Nhom20_Toan_Tai_Trong/app/src/main/res/layout/activity_chitiet.xml" value="0.17481884057971014" />
+        <entry key="..\:/MobileAppNote/DHKTPM15A_Nhom20_Toan_Tai_Trong/app/src/main/res/layout/activity_chitiettaikhoan.xml" value="0.25" />
+        <entry key="..\:/MobileAppNote/DHKTPM15A_Nhom20_Toan_Tai_Trong/app/src/main/res/layout/activity_dangki.xml" value="0.18" />
+        <entry key="..\:/MobileAppNote/DHKTPM15A_Nhom20_Toan_Tai_Trong/app/src/main/res/layout/activity_dangnhap.xml" value="0.17" />
+        <entry key="..\:/MobileAppNote/DHKTPM15A_Nhom20_Toan_Tai_Trong/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/Tai/Desktop/DHKTPM15A_Nhom20_Toan_Tai_Trong/app/src/main/res/drawable/botronbutton.xml" value="0.1945" />
+        <entry key="..\:/Users/Tai/Desktop/DHKTPM15A_Nhom20_Toan_Tai_Trong/app/src/main/res/drawable/btn_google.xml" value="0.1945" />
+        <entry key="..\:/Users/Tai/Desktop/DHKTPM15A_Nhom20_Toan_Tai_Trong/app/src/main/res/drawable/buttongooogle.xml" value="0.1945" />
+        <entry key="..\:/Users/Tai/Desktop/DHKTPM15A_Nhom20_Toan_Tai_Trong/app/src/main/res/drawable/string.xml" value="0.1945" />
+        <entry key="..\:/Users/Tai/Desktop/DHKTPM15A_Nhom20_Toan_Tai_Trong/app/src/main/res/drawable/textlink.xml" value="0.1945" />
+        <entry key="..\:/Users/Tai/Desktop/DHKTPM15A_Nhom20_Toan_Tai_Trong/app/src/main/res/layout/activity_dangki.xml" value="0.2" />
+        <entry key="..\:/Users/Tai/Desktop/DHKTPM15A_Nhom20_Toan_Tai_Trong/app/src/main/res/layout/activity_dangnhap.xml" value="0.2" />
+        <entry key="..\:/Users/Tai/Desktop/DHKTPM15A_Nhom20_Toan_Tai_Trong/app/src/main/res/layout/activity_main.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/Tai/Desktop/DHKTPM15A_Nhom20_Toan_Tai_Trong/app/src/main/res/layout/textlink.xml" value="0.17074275362318841" />
+>>>>>>> 1443f6e08494f1c12382732cfd264ebca8d90b59
         <entry key="app/src/main/res/drawable/btn_gradient.xml" value="0.20185185185185187" />
         <entry key="app/src/main/res/drawable/btn_pink.xml" value="0.19907407407407407" />
         <entry key="app/src/main/res/drawable/input_gradient.xml" value="0.20185185185185187" />

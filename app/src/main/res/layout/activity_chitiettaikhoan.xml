@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/red"
+    tools:context=".app.Dangnhap">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="670dp"
+        android:layout_marginTop="17dp"
+        android:background="@drawable/botronbutton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_quaylai_chitietnode" >
+
+        <Button
+            android:id="@+id/btnLuu"
+            android:layout_width="157dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/btn_gradient"
+            android:text="Lưu"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edt_matkhau" />
+
+        <Button
+            android:id="@+id/btnDongBo"
+            android:layout_width="157dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/btn_gradient"
+            android:text="Đồng bộ"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnLuu" />
+
+        <ImageButton
+            android:id="@+id/imgB_avt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="141dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="141dp"
+            android:background="@drawable/btn_picture"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/iconcamera"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Phan Huu Trong non"
+            android:textColor="#7A0505"
+            android:textSize="25dp"
+            app:layout_constraintEnd_toEndOf="@+id/imgB_avt"
+            app:layout_constraintStart_toStartOf="@+id/imgB_avt"
+            app:layout_constraintTop_toBottomOf="@+id/imgB_avt" />
+
+        <EditText
+            android:id="@+id/edt_name"
+            android:layout_width="330dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="63dp"
+            android:layout_marginEnd="29dp"
+            android:background="@drawable/input_gradient"
+            android:drawableLeft="@drawable/iconavt_black"
+            android:ems="10"
+            android:hint="   Họ và tên"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+        <EditText
+            android:id="@+id/edt_email"
+            android:layout_width="330dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="29dp"
+            android:background="@drawable/input_gradient"
+            android:drawableLeft="@drawable/iconmail"
+            android:ems="10"
+            android:hint="   Họ và tên"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.521"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edt_name" />
+
+        <EditText
+            android:id="@+id/edt_matkhau"
+            android:layout_width="330dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="29dp"
+            android:background="@drawable/input_gradient"
+            android:drawableLeft="@drawable/iconpass"
+            android:ems="10"
+            android:hint="   Mật khẩu"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.521"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edt_email" />
+
+        <ImageButton
+            android:id="@+id/imgB_editname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFF1F5"
+            app:layout_constraintBottom_toBottomOf="@+id/edt_name"
+            app:layout_constraintEnd_toEndOf="@+id/edt_name"
+            app:layout_constraintTop_toTopOf="@+id/edt_name"
+            app:srcCompat="@drawable/iconedit"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        <ImageButton
+            android:id="@+id/imgB_editpass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFF1F5"
+            app:layout_constraintBottom_toBottomOf="@+id/edt_matkhau"
+            app:layout_constraintEnd_toEndOf="@+id/edt_matkhau"
+            app:layout_constraintTop_toTopOf="@+id/edt_matkhau"
+            app:srcCompat="@drawable/iconedit"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+        <ImageButton
+            android:id="@+id/imgB_editemail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFF1F5"
+            app:layout_constraintBottom_toBottomOf="@+id/edt_email"
+            app:layout_constraintEnd_toEndOf="@+id/edt_email"
+            app:layout_constraintTop_toTopOf="@+id/edt_email"
+            app:srcCompat="@drawable/iconedit"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_quaylai_chitietnode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:drawableLeft="@drawable/return_arrow"
+        android:text="  Quay lại"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
