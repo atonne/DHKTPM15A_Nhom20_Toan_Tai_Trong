@@ -14,6 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dhktpm15a_nhom20_toan_tai_trong.R;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.ActiveDAO;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.UserDAO;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.database.NoteDatabase;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.Active;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -29,6 +33,8 @@ public class Dangnhap extends AppCompatActivity {
     ImageView imggoole;
     EditText txtemail,txtpass;
     Button btnlogin;
+    private UserDAO userDAO;
+    private ActiveDAO activeDAO;
     private FirebaseAuth mauth;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 0;
@@ -38,32 +44,9 @@ public class Dangnhap extends AppCompatActivity {
         setContentView(R.layout.activity_dangnhap);
         mauth= FirebaseAuth.getInstance();
         anhxa();
-        createrequest();
 
-        //dangki
-        tvdangky.setPaintFlags(tvdangky.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        tvdangky.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(Dangnhap.this, Dangky.class);
-                startActivity(intent);
-            }
-        });
-        //tvquenmk
-        tvquenmk.setPaintFlags(tvdangky.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        checkLogin();
 
-        imggoole.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signIn();
-            }
-        });
-        btnlogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                login();
-            }
-        });
 
     }
     public void anhxa(){
@@ -73,6 +56,9 @@ public class Dangnhap extends AppCompatActivity {
         txtpass=findViewById(R.id.txtpass);
         btnlogin=findViewById(R.id.btndangnhap);
         tvquenmk=findViewById(R.id.tvquenmk);
+
+        activeDAO = NoteDatabase.getInstance(this).getUserActive();
+        userDAO = NoteDatabase.getInstance(this).getUserDAO();
 
     }
     private void createrequest() {
@@ -112,15 +98,17 @@ public class Dangnhap extends AppCompatActivity {
     }
     private void login(){
         String emails,passw;
-        emails=txtemail.getText().toString();
-        passw=txtpass.getText().toString();
+        emails=txtemail.getText().toString().trim();
+        passw=txtpass.getText().toString().trim();
         System.out.println(emails + passw);
         mauth.signInWithEmailAndPassword(emails,passw).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+                    Active atv = new Active(emails,passw,true);
+                    activeDAO.addUserActive(atv);
+
                     Intent intent=new Intent(Dangnhap.this, TrangChu.class);
-                    intent.putExtra("emailUser",emails);
                     startActivity(intent);
                 }
                 else
@@ -128,4 +116,56 @@ public class Dangnhap extends AppCompatActivity {
             }
         });
     }
+
+
+    public void checkLogin(){
+        Active userActive = activeDAO.getUserActive(true);
+        if(userActive == null){
+            createrequest();
+
+            //dangki
+            tvdangky.setPaintFlags(tvdangky.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            tvdangky.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(Dangnhap.this, Dangky.class);
+                    startActivity(intent);
+                }
+            });
+            //tvquenmk
+            tvquenmk.setPaintFlags(tvdangky.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+            imggoole.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    signIn();
+                }
+            });
+            btnlogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    login();
+                }
+            });
+        }
+
+        else {
+            String emails = userActive.getEmail();
+            String passw = userActive.getPass();
+            mauth.signInWithEmailAndPassword(emails,passw).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()){
+                        Intent intent=new Intent(Dangnhap.this, TrangChu.class);
+                        startActivity(intent);
+                    }
+                    else
+                        Toast.makeText(Dangnhap.this, "Lỗi Đăng nhập", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+
+    }
+
 }

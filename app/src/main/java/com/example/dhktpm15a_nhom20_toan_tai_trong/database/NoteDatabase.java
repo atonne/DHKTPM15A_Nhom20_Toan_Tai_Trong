@@ -6,12 +6,15 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.ActiveDAO;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.NoteDAO;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.UserDAO;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.Active;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.Note;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.OTMUserNote;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.User;
 
-@Database(entities = {User.class, Note.class},version = 1)
+@Database(entities = {User.class, Note.class, Active.class},version = 1)
 public abstract class NoteDatabase extends RoomDatabase {
 
     private static final String dbName = "noteDB.db";
@@ -28,5 +31,6 @@ public abstract class NoteDatabase extends RoomDatabase {
 
     public abstract NoteDAO getNoteDAO();
     public abstract UserDAO getUserDAO();
+    public abstract ActiveDAO getUserActive();
 
 }

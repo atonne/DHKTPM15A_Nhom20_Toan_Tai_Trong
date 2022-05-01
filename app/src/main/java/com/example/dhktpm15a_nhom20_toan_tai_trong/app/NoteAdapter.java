@@ -16,6 +16,7 @@ import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.Note;
 import com.google.gson.Gson;
 
 import java.util.List;
+import java.util.Locale;
 
 public class NoteAdapter extends BaseAdapter {
 
@@ -71,8 +72,11 @@ public class NoteAdapter extends BaseAdapter {
         Note note = lsNote.get(i);
         if(lsNote != null && !lsNote.isEmpty()){
             tvName.setText(note.getName());
-            tvlogo.setText(note.getName().substring(0,1));
-            tvDes.setText(note.getContent().substring(0,15));
+            tvlogo.setText(note.getName().substring(0,1).toUpperCase(Locale.ROOT));
+            if(note.getContent().length() < 20)
+                tvDes.setText(note.getContent());
+            else
+                tvDes.setText(note.getContent().substring(0,20));
         }
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +99,7 @@ public class NoteAdapter extends BaseAdapter {
 
         String StringNote = gson.toJson(note);
 
-        intent.putExtra("idUser",StringNote);
+        intent.putExtra("note",StringNote);
 
         context.startActivity(intent);
 

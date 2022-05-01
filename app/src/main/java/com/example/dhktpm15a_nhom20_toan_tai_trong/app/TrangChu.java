@@ -11,9 +11,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.dhktpm15a_nhom20_toan_tai_trong.R;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.ActiveDAO;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.NoteDAO;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.UserDAO;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.database.NoteDatabase;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.dialog.DialogAddNote;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.Active;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.Note;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +30,7 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
 
     private NoteDAO noteDAO;
     private UserDAO userDAO;
+    private ActiveDAO userActiveDAO;
     private String emailUser;
     private User userLogin;
     private EditText txtSearch;
@@ -40,6 +44,7 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
 
         noteDAO = NoteDatabase.getInstance(this).getNoteDAO();
         userDAO = NoteDatabase.getInstance(this).getUserDAO();
+        userActiveDAO = NoteDatabase.getInstance(this).getUserActive();
 
         btnAccount = findViewById(R.id.btnAccount);
         btnAddNote = findViewById(R.id.btnAddNote);
@@ -49,8 +54,8 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
         txtSearch.setOnKeyListener(this);
 
 
-        Intent intent = getIntent();
-        emailUser = intent.getStringExtra("emailUser");
+        Active userActive = userActiveDAO.getUserActive(true);
+        emailUser = userActive.getEmail();
 
         //String tenUser, String email, int img
 
@@ -61,13 +66,13 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
         userLogin = userDAO.getUserFromEmail(emailUser);
 
 
-
-        //String name, String content, String trangThai, int idUser
-
-        noteDAO.addNote(new Note("Thời khoá biểu1","thứ 2 học, thứ 3 đi chơi, thứ 4 học, thứ 5 học","note",userLogin.getIdUser()));
-        noteDAO.addNote(new Note("Thời khoá biểu2","thứ 3 học, thứ 3 đi chơi, thứ 4 học, thứ 5 học","note",userLogin.getIdUser()));
-        noteDAO.addNote(new Note("Thời khoá biểu3","thứ 4 học, thứ 3 đi chơi, thứ 4 học, thứ 5 học","note",userLogin.getIdUser()));
-        noteDAO.addNote(new Note("Thời khoá biểu4","thứ 5 học, thứ 3 đi chơi, thứ 4 học, thứ 5 học","note",userLogin.getIdUser()));
+//
+//        //String name, String content, String trangThai, int idUser
+//
+//        noteDAO.addNote(new Note("Thời khoá biểu1","thứ 2 học, thứ 3 đi chơi, thứ 4 học, thứ 5 học","note",userLogin.getIdUser()));
+//        noteDAO.addNote(new Note("Thời khoá biểu2","thứ 3 học, thứ 3 đi chơi, thứ 4 học, thứ 5 học","note",userLogin.getIdUser()));
+//        noteDAO.addNote(new Note("Thời khoá biểu3","thứ 4 học, thứ 3 đi chơi, thứ 4 học, thứ 5 học","note",userLogin.getIdUser()));
+//        noteDAO.addNote(new Note("Thời khoá biểu4","thứ 5 học, thứ 3 đi chơi, thứ 4 học, thứ 5 học","note",userLogin.getIdUser()));
 
         lsNote = new ArrayList<Note>();
 
@@ -75,6 +80,7 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
 
         clickAccount(userLogin);
         clickbtnLogOut();
+        handleBtnAddNote();
     }
 
     private void showListNote(String s) {
@@ -130,6 +136,8 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
+                Active userActive = userActiveDAO.getUserActive(true);
+                userActiveDAO.deleteUserActive(userActive);
                 Intent intent = new Intent(getApplicationContext(),Dangnhap.class);
                 startActivity(intent);
             }
@@ -151,6 +159,38 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
 
     }
 
+    public void handleBtnAddNote(){
+        btnAddNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickBtnAddNote();
+            }
+        });
+    }
+    private void clickBtnAddNote()  {
+        DialogAddNote.FullNameListener listener = new DialogAddNote.FullNameListener() {
+            @Override
+            public void getNameNote(String nameNote) {
+               handleAddNote(nameNote);
+            }
+        };
+        final DialogAddNote dialog = new DialogAddNote(this, listener);
+
+        dialog.show();
+    }
+
+    private void handleAddNote(String name) {
+        Note newNote = new Note(name,"","note",userLogin.getIdUser());
+        noteDAO.addNote(newNote);
+
+        Intent intent = new Intent(getApplicationContext(),ChiTietNote.class);
+        Gson gson = new Gson();
+        String newNoteString = gson.toJson(newNote);
+        intent.putExtra("note",newNoteString);
+
+        startActivity(intent);
+
+    }
 
 
 }

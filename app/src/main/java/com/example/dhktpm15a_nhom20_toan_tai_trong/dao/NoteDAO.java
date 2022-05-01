@@ -17,8 +17,6 @@ public interface NoteDAO {
     @Query("select * from Note where idUser = :iduser ")
     public List<Note> getListNoteFromIdUser(int iduser);
 
-    @Query("select * from Note where name match :search ")
-    public List<Note> getListNoteFromSearch(String search);
 
 
     @Insert

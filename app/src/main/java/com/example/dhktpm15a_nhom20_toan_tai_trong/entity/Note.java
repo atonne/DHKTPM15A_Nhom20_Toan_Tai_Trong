@@ -25,6 +25,8 @@ public class Note {
         this.idUser = idUser;
     }
 
+
+
     public Note(String name, String content, String trangThai, int idUser) {
         this.name = name;
         this.content = content;
