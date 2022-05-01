@@ -1,10 +1,13 @@
 package com.example.dhktpm15a_nhom20_toan_tai_trong.app;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.dhktpm15a_nhom20_toan_tai_trong.R;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.ActiveDAO;
@@ -23,7 +27,12 @@ import com.example.dhktpm15a_nhom20_toan_tai_trong.dialog.DialogLogOut;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.Active;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.Note;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.User;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.realtimeDAO.userDAO.RealtimeNote;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.realtimeDAO.userDAO.RealtimeUser;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -35,6 +44,11 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
     private NoteDAO noteDAO;
     private UserDAO userDAO;
     private ActiveDAO userActiveDAO;
+    private RealtimeUser realtimeUser;
+    private RealtimeNote realtimeNote;
+
+    private Context context;
+
     private String emailUser;
     private User userLogin;
     private EditText txtSearch;
@@ -50,6 +64,11 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
         userDAO = NoteDatabase.getInstance(this).getUserDAO();
         userActiveDAO = NoteDatabase.getInstance(this).getUserActive();
 
+        realtimeNote = new RealtimeNote(this);
+        realtimeUser = new RealtimeUser(this);
+
+        context = this;
+
         btnAccount = findViewById(R.id.btnAccount);
         btnAddNote = findViewById(R.id.btnAddNote);
         btnLogOut = findViewById(R.id.btnLogOut);
@@ -61,22 +80,17 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
         Active userActive = userActiveDAO.getUserActive(true);
         emailUser = userActive.getEmail();
 
-        //String tenUser, String email, int img
+        addUserFromRealtime();
 
-        User  u = new User("tp",emailUser,0);
+        TextView tvAcc = findViewById(R.id.tvUserLogin);
+        tvAcc.setText(emailUser);
 
-        userDAO.addUser(u);
+
+
 
         userLogin = userDAO.getUserFromEmail(emailUser);
 
 
-//
-//        //String name, String content, String trangThai, int idUser
-//
-//        noteDAO.addNote(new Note("Thời khoá biểu1","thứ 2 học, thứ 3 đi chơi, thứ 4 học, thứ 5 học","note",userLogin.getIdUser()));
-//        noteDAO.addNote(new Note("Thời khoá biểu2","thứ 3 học, thứ 3 đi chơi, thứ 4 học, thứ 5 học","note",userLogin.getIdUser()));
-//        noteDAO.addNote(new Note("Thời khoá biểu3","thứ 4 học, thứ 3 đi chơi, thứ 4 học, thứ 5 học","note",userLogin.getIdUser()));
-//        noteDAO.addNote(new Note("Thời khoá biểu4","thứ 5 học, thứ 3 đi chơi, thứ 4 học, thứ 5 học","note",userLogin.getIdUser()));
 
         lsNote = new ArrayList<Note>();
 
@@ -95,7 +109,7 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
         else if(s.equalsIgnoreCase("SEARCH"))
             lsNote = getListSearch();
 
-        if(lsNote != null && lsNote.size() != 0){
+        if(lsNote != null){
             ListView listView = findViewById(R.id.lvNote);
 
             NoteAdapter.ResetList reset = new NoteAdapter.ResetList() {
@@ -116,8 +130,8 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
     public List<Note> getListSearch(){
 
         String textSearch = txtSearch.getText().toString().trim();
-       List<Note> ls = noteDAO.getListNoteFromIdUser(userLogin.getIdUser());;
-        List<Note> lsTemp = new ArrayList<Note>();
+       List<Note> ls = noteDAO.getListNoteFromIdUser(userLogin.getIdUser());
+        List<Note> lsTemp = new ArrayList<>();
         for (Note n : ls){
             if(n.getName().contains(textSearch)){
                 lsTemp.add(n);
@@ -147,7 +161,19 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialogLogOut();
+
+                new AlertDialog.Builder(context)
+                        .setTitle("Xác nhận")
+                        .setMessage("Bạn có chắc muốn đăng xuất?")
+                        .setPositiveButton("Đăng xuất", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                showDialogLogOut();
+                                handleUpdateAllNote();
+                            }
+                        })
+                        .setNegativeButton("Huỷ",null)
+                        .show();
 
             }
         });
@@ -227,6 +253,44 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
 
         startActivity(intent);
 
+    }
+
+    public void addUserFromRealtime(){
+        realtimeUser.getUserByEmail(emailUser).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User u = snapshot.getValue(User.class);
+                if(u!= null) {
+                    User userActive = userDAO.getUserFromEmail(emailUser);
+                    if (userDAO == null) {
+                        userDAO.addUser(u);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void handleUpdateAllNote(){
+        List<Note> lsNote = noteDAO.getListNoteFromIdUser(userLogin.getIdUser());
+        realtimeNote.getAllNote().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (Note n : lsNote){
+                    realtimeNote.addNote(n);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
