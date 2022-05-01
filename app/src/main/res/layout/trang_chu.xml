@@ -32,22 +32,10 @@
             android:padding="5dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.444"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.01" />
-
-        <ListView
-            android:id="@+id/lvNote"
-            android:layout_width="match_parent"
-            android:layout_height="449dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.466"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtSearch" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnAddNote"
@@ -59,6 +47,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lvNote"
             tools:ignore="SpeakableTextPresentCheck" />
+
+        <ListView
+            android:id="@+id/lvNote"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtSearch" />
+
+        <!--        <androidx.recyclerview.widget.RecyclerView-->
+        <!--            android:id="@+id/lvNote"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="450dp"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintHorizontal_bias="0.5"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/txtSearch" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button

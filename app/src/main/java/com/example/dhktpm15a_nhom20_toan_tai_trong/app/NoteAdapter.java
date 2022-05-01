@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dhktpm15a_nhom20_toan_tai_trong.R;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.NoteDAO;
@@ -24,16 +27,19 @@ public class NoteAdapter extends BaseAdapter {
     private List<Note> lsNote;
     private int idLayout;
 
+    private NoteAdapter.ResetList reset;
+
 
 
     private NoteDAO noteDAO;
     private UserDAO userDAO;
 
 
-    public NoteAdapter(Context context, List<Note> lsNote, int idLayout) {
+    public NoteAdapter(Context context, List<Note> lsNote, int idLayout,NoteAdapter.ResetList reset) {
         this.context = context;
         this.lsNote = lsNote;
         this.idLayout = idLayout;
+        this.reset = reset;
 
         noteDAO = NoteDatabase.getInstance(context).getNoteDAO();
         userDAO = NoteDatabase.getInstance(context).getUserDAO();
@@ -69,6 +75,9 @@ public class NoteAdapter extends BaseAdapter {
         TextView tvDes = (TextView) view.findViewById(R.id.tvItemDescription);
         TextView tvlogo = (TextView) view.findViewById(R.id.tvItemLogo);
 
+        Button btnDelete = view.findViewById(R.id.btnDeleteNote);
+
+
         Note note = lsNote.get(i);
         if(lsNote != null && !lsNote.isEmpty()){
             tvName.setText(note.getName());
@@ -86,6 +95,12 @@ public class NoteAdapter extends BaseAdapter {
             }
 
 
+        });
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickDeleteNote(note);
+            }
         });
 
 
@@ -106,4 +121,19 @@ public class NoteAdapter extends BaseAdapter {
 
 
     }
+
+    public void  clickDeleteNote(Note note){
+        noteDAO.deleteNote(note);
+
+        if(reset!=null)
+            reset.resetList();
+
+    }
+
+
+    public interface ResetList{
+        public void resetList();
+    }
+
+
 }

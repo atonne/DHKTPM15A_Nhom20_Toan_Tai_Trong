@@ -1,7 +1,10 @@
 package com.example.dhktpm15a_nhom20_toan_tai_trong.app;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -16,6 +19,7 @@ import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.NoteDAO;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.UserDAO;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.database.NoteDatabase;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.dialog.DialogAddNote;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.dialog.DialogLogOut;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.Active;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.Note;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.User;
@@ -83,7 +87,7 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
         handleBtnAddNote();
     }
 
-    private void showListNote(String s) {
+    public void showListNote(String s) {
 
 
         if(s.length() == 0)
@@ -94,8 +98,16 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
         if(lsNote != null && lsNote.size() != 0){
             ListView listView = findViewById(R.id.lvNote);
 
-            NoteAdapter adapter = new NoteAdapter(this,lsNote,R.layout.item_note);
+            NoteAdapter.ResetList reset = new NoteAdapter.ResetList() {
+                @Override
+                public void resetList() {
+                    showListNote("");
+                }
+            };
+            NoteAdapter adapter = new NoteAdapter(this,lsNote,R.layout.item_note,reset);
             listView.setAdapter(adapter);
+
+
 
 
         }
@@ -135,14 +147,39 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Active userActive = userActiveDAO.getUserActive(true);
-                userActiveDAO.deleteUserActive(userActive);
-                Intent intent = new Intent(getApplicationContext(),Dangnhap.class);
-                startActivity(intent);
+                showDialogLogOut();
+
             }
         });
     }
+    public void showDialogLogOut(){
+//        DialogLogOut.Logout handleDialog = new DialogLogOut.Logout() {
+//            @Override
+//            public void logOut() {
+//                FirebaseAuth.getInstance().signOut();
+//                Active userActive = userActiveDAO.getUserActive(true);
+//                if (userActive != null)
+//                    userActiveDAO.deleteUserActive(userActive);
+//                Intent intent = new Intent(getApplicationContext(), Dangnhap.class);
+//                getApplicationContext().startActivity(intent);
+//            }
+//        };
+//
+//        final DialogLogOut dialog = new DialogLogOut(getApplicationContext(),handleDialog);
+//
+//        dialog.show();
+
+        FirebaseAuth.getInstance().signOut();
+        Active userActive = userActiveDAO.getUserActive(true);
+        if (userActive != null)
+            userActiveDAO.deleteUserActive(userActive);
+        Intent intent = new Intent(getApplicationContext(), Dangnhap.class);
+        getApplicationContext().startActivity(intent);
+
+
+    }
+
+
 
     public void clickAccount(User user){
 

@@ -27,7 +27,7 @@
         <activity android:name=".app.Dangky" />
         <activity android:name=".app.MainActivity" />
         <activity android:name=".app.ChiTietTaiKhoan" />
-        <activity android:name=".dialog.DialogAddNote"/>
+
     </application>
 
 </manifest>
