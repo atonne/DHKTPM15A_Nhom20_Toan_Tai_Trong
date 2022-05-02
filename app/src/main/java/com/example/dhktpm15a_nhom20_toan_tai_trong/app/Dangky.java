@@ -104,7 +104,7 @@ public class Dangky extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             Toast.makeText(this, account.getEmail().toString(), Toast.LENGTH_SHORT).show();
-            Intent intent=new Intent(this,MainActivity.class);
+            Intent intent=new Intent(this,TrangChu.class);
             startActivity(intent);
             // Signed in successfully, show authenticated UI.
 

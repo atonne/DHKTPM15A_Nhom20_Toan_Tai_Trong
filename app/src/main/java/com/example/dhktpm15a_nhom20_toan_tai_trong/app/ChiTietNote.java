@@ -41,8 +41,8 @@ public class ChiTietNote extends AppCompatActivity {
         tvquaylai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent=new Intent(ChiTietNode.this,trangchu.class);
-//                startActivity(intent);
+                Intent intent=new Intent(ChiTietNote.this,TrangChu.class);
+                startActivity(intent);
 
             }
         });
