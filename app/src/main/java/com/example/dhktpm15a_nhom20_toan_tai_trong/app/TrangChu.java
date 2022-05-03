@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dhktpm15a_nhom20_toan_tai_trong.R;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.ActiveDAO;
@@ -80,27 +81,35 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
         Active userActive = userActiveDAO.getUserActive(true);
         emailUser = userActive.getEmail();
 
-        addUserFromRealtime();
-
-        TextView tvAcc = findViewById(R.id.tvUserLogin);
-        tvAcc.setText(emailUser);
-
+        if(addUserFromRealtime()){
+            TextView tvAcc = findViewById(R.id.tvUserLogin);
+            tvAcc.setText(emailUser);
 
 
 
-        userLogin = userDAO.getUserFromEmail(emailUser);
+
+            userLogin = userDAO.getUserFromEmail(emailUser);
 
 
 
-        lsNote = new ArrayList<Note>();
+            lsNote = new ArrayList<Note>();
 
-        showListNote("");
+            showListNote("");
 
-        clickAccount(userLogin);
-        clickbtnLogOut();
-        handleBtnAddNote();
+            clickAccount(userLogin);
+            clickbtnLogOut();
+            handleBtnAddNote();
+        }
+
+
     }
 
+    NoteAdapter.ResetList reset = new NoteAdapter.ResetList() {
+        @Override
+        public void resetList() {
+            showListNote("");
+        }
+    };
     public void showListNote(String s) {
 
 
@@ -112,12 +121,7 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
         if(lsNote != null){
             ListView listView = findViewById(R.id.lvNote);
 
-            NoteAdapter.ResetList reset = new NoteAdapter.ResetList() {
-                @Override
-                public void resetList() {
-                    showListNote("");
-                }
-            };
+
             NoteAdapter adapter = new NoteAdapter(this,lsNote,R.layout.item_note,reset);
             listView.setAdapter(adapter);
 
@@ -168,8 +172,9 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
                         .setPositiveButton("Đăng xuất", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                showDialogLogOut();
                                 handleUpdateAllNote();
+                                showDialogLogOut();
+
                             }
                         })
                         .setNegativeButton("Huỷ",null)
@@ -179,21 +184,6 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
         });
     }
     public void showDialogLogOut(){
-//        DialogLogOut.Logout handleDialog = new DialogLogOut.Logout() {
-//            @Override
-//            public void logOut() {
-//                FirebaseAuth.getInstance().signOut();
-//                Active userActive = userActiveDAO.getUserActive(true);
-//                if (userActive != null)
-//                    userActiveDAO.deleteUserActive(userActive);
-//                Intent intent = new Intent(getApplicationContext(), Dangnhap.class);
-//                getApplicationContext().startActivity(intent);
-//            }
-//        };
-//
-//        final DialogLogOut dialog = new DialogLogOut(getApplicationContext(),handleDialog);
-//
-//        dialog.show();
 
         FirebaseAuth.getInstance().signOut();
         Active userActive = userActiveDAO.getUserActive(true);
@@ -245,6 +235,7 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
     private void handleAddNote(String name) {
         Note newNote = new Note(name,"","note",userLogin.getIdUser());
         noteDAO.addNote(newNote);
+        showListNote("");
 
         Intent intent = new Intent(getApplicationContext(),ChiTietNote.class);
         Gson gson = new Gson();
@@ -255,16 +246,21 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
 
     }
 
-    public void addUserFromRealtime(){
+    public boolean addUserFromRealtime(){
         realtimeUser.getUserByEmail(emailUser).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User u = snapshot.getValue(User.class);
-                if(u!= null) {
-                    User userActive = userDAO.getUserFromEmail(emailUser);
-                    if (userDAO == null) {
-                        userDAO.addUser(u);
+
+                for (DataSnapshot s : snapshot.getChildren()){
+                    User u = s.getValue(User.class);
+                    if(u!= null) {
+                        User uActive = userDAO.getUserFromEmail(emailUser);
+                        if (uActive == null) {
+                            userDAO.addUser(u);
+                            return;
+                        }
                     }
+
                 }
             }
 
@@ -273,24 +269,20 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
 
             }
         });
+
+        if(userDAO.getUserFromEmail(emailUser) == null){
+            Toast.makeText(this,"user chua nhap",Toast.LENGTH_SHORT);
+            return false;
+        }
+        return true;
+
     }
 
     public void handleUpdateAllNote(){
         List<Note> lsNote = noteDAO.getListNoteFromIdUser(userLogin.getIdUser());
-        realtimeNote.getAllNote().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (Note n : lsNote){
-                    realtimeNote.addNote(n);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        for (Note n : lsNote){
+            realtimeNote.addNote(n);
+        }
     }
 
 

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,6 +141,8 @@ public class NoteAdapter extends BaseAdapter {
                         noteDAO.deleteNote(note);
                         handleRealtimeDelete(note);
 
+                        if(reset!=null)
+                            reset.resetList();
                     }
                 })
                 .setNegativeButton("Huỷ",null)
@@ -147,8 +150,7 @@ public class NoteAdapter extends BaseAdapter {
 
 
 
-        if(reset!=null)
-            reset.resetList();
+
 
     }
 
@@ -157,10 +159,14 @@ public class NoteAdapter extends BaseAdapter {
         realtimeNote.getNoteById(note.getIdNote()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Note n = snapshot.getValue(Note.class);
-                if(n!= null){
-                    realtimeNote.deleteNoteById(note.getIdNote());
+
+                for (DataSnapshot s : snapshot.getChildren()){
+                    Note n = s.getValue(Note.class);
+                    if(n!= null){
+                        realtimeNote.deleteNoteById(note.getIdNote());
+                    }
                 }
+
             }
 
             @Override

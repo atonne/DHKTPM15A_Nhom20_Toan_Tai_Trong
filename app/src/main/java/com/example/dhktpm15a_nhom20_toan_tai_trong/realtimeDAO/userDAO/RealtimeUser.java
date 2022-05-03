@@ -14,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+
 public class RealtimeUser {
     private FirebaseDatabase database ;
     private DatabaseReference myRef;
@@ -22,27 +23,23 @@ public class RealtimeUser {
 
     public RealtimeUser(Context context) {
         this.context  = context;
-        this.database = FirebaseDatabase.getInstance();
+
+        String linkDB = "https://appnote-85a9b-default-rtdb.asia-southeast1.firebasedatabase.app/";
+        this.database = FirebaseDatabase.getInstance(linkDB);
         this.myRef  = database.getReference(childName);
     }
 
     public void addUser(User user){
 
 
-        myRef.child(user.getIdUser()+"").setValue(user, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                Toast.makeText(context,"Lưu thành công",Toast.LENGTH_SHORT);
-            }
-        });
+        myRef.child(user.getIdUser()+"").setValue(user);
 
     }
 
     public Query getUserByEmail(String email){
 
-        User u;
 
-        return myRef.child(childName).orderByChild("email").equalTo(email);
+        return myRef.orderByChild("email").startAt(email);
     }
 
 

@@ -21,7 +21,8 @@ public class RealtimeNote {
 
     public RealtimeNote(Context context) {
         this.context  = context;
-        this.database = FirebaseDatabase.getInstance();
+        String linkDB = "https://appnote-85a9b-default-rtdb.asia-southeast1.firebasedatabase.app/";
+        this.database = FirebaseDatabase.getInstance(linkDB);
         this.myRef  = database.getReference(childName);
     }
 
@@ -40,7 +41,7 @@ public class RealtimeNote {
     public Query getNoteById(int id){
 
 
-        return myRef.child(id+"").orderByChild("id").equalTo(id);
+        return myRef.orderByChild("idNote").startAt(id);
     }
 
     public Query getAllNote(){
