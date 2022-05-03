@@ -94,7 +94,7 @@
             android:background="@drawable/input_gradient"
             android:drawableLeft="@drawable/iconmail"
             android:ems="10"
-            android:hint="   Họ và tên"
+            android:hint="Email"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.521"

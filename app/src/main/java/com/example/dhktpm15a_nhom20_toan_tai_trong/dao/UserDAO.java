@@ -3,6 +3,7 @@ package com.example.dhktpm15a_nhom20_toan_tai_trong.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.User;
 
@@ -17,5 +18,7 @@ public interface UserDAO {
     @Insert
     public void addUser(User user);
 
+    @Update
+    public void updateUser(User user);
 
 }

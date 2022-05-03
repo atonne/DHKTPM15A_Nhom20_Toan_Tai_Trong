@@ -66,4 +66,5 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.9.0'
 
+    implementation 'gun0912.ted:tedbottompicker:1.2.6'
 }
