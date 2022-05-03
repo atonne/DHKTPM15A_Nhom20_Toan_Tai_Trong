@@ -18,6 +18,8 @@ import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.ActiveDAO;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.UserDAO;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.database.NoteDatabase;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.Active;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.User;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.realtimeDAO.userDAO.RealtimeUser;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -27,6 +29,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 public class Dangnhap extends AppCompatActivity {
     TextView tvdangky,tvquenmk;
@@ -38,11 +45,16 @@ public class Dangnhap extends AppCompatActivity {
     private FirebaseAuth mauth;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 0;
+    private RealtimeUser realtimeUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dangnhap);
         mauth= FirebaseAuth.getInstance();
+        realtimeUser = new RealtimeUser(this);
+
+        addAllUserFromRealtime();
         anhxa();
 
         checkLogin();
@@ -100,7 +112,7 @@ public class Dangnhap extends AppCompatActivity {
         String emails,passw;
         emails=txtemail.getText().toString().trim();
         passw=txtpass.getText().toString().trim();
-        System.out.println(emails + passw);
+
         mauth.signInWithEmailAndPassword(emails,passw).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -117,9 +129,49 @@ public class Dangnhap extends AppCompatActivity {
         });
     }
 
+    public void addAllUserFromRealtime(){
+
+        realtimeUser.getAllUser().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot s : snapshot.getChildren()){
+                    if(s!= null){
+                        User u = s.getValue(User.class);
+
+                        if(!timUser(u)){
+                            userDAO.addUser(u);
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
+
+    public boolean timUser(User user){
+        List<User> ls = userDAO.getAllUser();
+        for(User u : ls){
+            if(u.getIdUser() == user.getIdUser()){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public void checkLogin(){
         Active userActive = activeDAO.getUserActive(true);
+
+
+
+
         if(userActive == null){
             createrequest();
 
@@ -167,8 +219,8 @@ public class Dangnhap extends AppCompatActivity {
         }
 
     }
-    public void getUserFromRoom(){
 
-    }
+
+
 
 }

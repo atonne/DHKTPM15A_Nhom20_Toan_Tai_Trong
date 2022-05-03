@@ -39,8 +39,16 @@ public class RealtimeUser {
     public Query getUserByEmail(String email){
 
 
-        return myRef.orderByChild("email").startAt(email);
+        return myRef.orderByChild("email").equalTo(email);
     }
+
+
+    public Query getAllUser(){
+
+        return myRef;
+
+    }
+
 
 
 

@@ -33,6 +33,7 @@ import com.example.dhktpm15a_nhom20_toan_tai_trong.realtimeDAO.userDAO.RealtimeU
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
@@ -78,21 +79,23 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
         txtSearch.setOnKeyListener(this);
 
 
+
         Active userActive = userActiveDAO.getUserActive(true);
         emailUser = userActive.getEmail();
 
+
+
+
         if(addUserFromRealtime()){
+
+
             TextView tvAcc = findViewById(R.id.tvUserLogin);
             tvAcc.setText(emailUser);
 
-
-
+            lsNote = new ArrayList<Note>();
 
             userLogin = userDAO.getUserFromEmail(emailUser);
-
-
-
-            lsNote = new ArrayList<Note>();
+            addNoteFromRealtime();
 
             showListNote("");
 
@@ -102,6 +105,44 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
         }
 
 
+    }
+
+    public void addNoteFromRealtime(){
+
+
+        Query myRef = realtimeNote.getRef();
+        myRef.orderByChild("idUser").equalTo(userLogin.getIdUser()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot s : snapshot.getChildren()){
+                    Note n = s.getValue(Note.class);
+                    if(n!= null){
+                       if( !timNote(n)){
+                           noteDAO.addNote(n);
+                       }
+
+                    }
+
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
+
+    }
+
+    public boolean timNote(Note note){
+        List<Note> ls = noteDAO.getListNoteFromIdUser(userLogin.getIdUser());
+        for(Note nDao : ls){
+            if(nDao.getIdNote() == note.getIdNote()){
+                return true;
+            }
+        }
+        return false;
     }
 
     NoteAdapter.ResetList reset = new NoteAdapter.ResetList() {
@@ -173,6 +214,7 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 handleUpdateAllNote();
+                                removeAllNoteLocal();
                                 showDialogLogOut();
 
                             }
@@ -182,6 +224,12 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
 
             }
         });
+    }
+    public void removeAllNoteLocal(){
+        List<Note> lsTemp = noteDAO.getListNoteFromIdUser(userLogin.getIdUser());
+        for(Note n : lsTemp){
+            noteDAO.deleteNote(n);
+        }
     }
     public void showDialogLogOut(){
 
@@ -246,18 +294,21 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
 
     }
 
+
+
     public boolean addUserFromRealtime(){
         realtimeUser.getUserByEmail(emailUser).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User uActive = userDAO.getUserFromEmail(emailUser);
 
                 for (DataSnapshot s : snapshot.getChildren()){
                     User u = s.getValue(User.class);
-                    if(u!= null) {
-                        User uActive = userDAO.getUserFromEmail(emailUser);
-                        if (uActive == null) {
+                    if(u!= null&&u.getEmail() == emailUser) {
+
+                        if (uActive==null) {
                             userDAO.addUser(u);
-                            return;
+
                         }
                     }
 
@@ -274,6 +325,7 @@ public class TrangChu extends AppCompatActivity implements View.OnKeyListener {
             Toast.makeText(this,"user chua nhap",Toast.LENGTH_SHORT);
             return false;
         }
+
         return true;
 
     }
