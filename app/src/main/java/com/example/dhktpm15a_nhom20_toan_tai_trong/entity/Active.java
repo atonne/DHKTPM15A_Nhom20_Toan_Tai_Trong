@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 @Entity(tableName = "Active")
 public class Active {
     @PrimaryKey
@@ -24,6 +26,11 @@ public class Active {
 
     public Active() {
 
+    }
+
+    public Active(GoogleSignInAccount account, boolean b) {
+        this.email=account.getEmail();
+        this.trangThai=b;
     }
 
     public String getEmail() {

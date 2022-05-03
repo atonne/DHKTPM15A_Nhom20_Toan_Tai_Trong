@@ -174,6 +174,7 @@ public class Dangky extends AppCompatActivity {
 
                 }else{
                     Toast.makeText(Dangky.this, "Tạo tài khoản không thành công", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
@@ -193,6 +194,7 @@ public class Dangky extends AppCompatActivity {
                             }
 
                     }
+
                 }
             }
 

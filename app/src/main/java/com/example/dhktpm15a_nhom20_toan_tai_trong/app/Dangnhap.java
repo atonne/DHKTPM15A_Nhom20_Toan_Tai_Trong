@@ -100,7 +100,27 @@ public class Dangnhap extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             Toast.makeText(this, account.getEmail().toString(), Toast.LENGTH_SHORT).show();
-            Intent intent=new Intent(this, ChiTietNote.class);
+
+            mauth.createUserWithEmailAndPassword(account.getEmail(),"123456").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()){
+
+
+                    }
+                }
+            });
+            Active atv = new Active(account.getEmail().toString(),"123456",true);
+            activeDAO.addUserActive(atv);
+            User user = new User(account.getDisplayName().toString(),account.getEmail().toString(),-1);
+
+            UserDAO userDAO = NoteDatabase.getInstance(getApplicationContext()).getUserDAO();
+            RealtimeUser realtimeUser = new RealtimeUser(getApplicationContext());
+
+            userDAO.addUser(user);
+            realtimeUser.addUser(userDAO.getUserFromEmail(user.getEmail()));
+            Toast.makeText(Dangnhap.this, "thanh cong", Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(Dangnhap.this, TrangChu.class);
             startActivity(intent);
             // Signed in successfully, show authenticated UI.
 
@@ -119,6 +139,7 @@ public class Dangnhap extends AppCompatActivity {
                 if(task.isSuccessful()){
                     Active atv = new Active(emails,passw,true);
                     activeDAO.addUserActive(atv);
+
 
                     Intent intent=new Intent(Dangnhap.this, TrangChu.class);
                     startActivity(intent);
@@ -204,10 +225,12 @@ public class Dangnhap extends AppCompatActivity {
         else {
             String emails = userActive.getEmail();
             String passw = userActive.getPass();
+
             mauth.signInWithEmailAndPassword(emails,passw).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
+
                         Intent intent=new Intent(Dangnhap.this, TrangChu.class);
                         startActivity(intent);
                     }
@@ -215,6 +238,7 @@ public class Dangnhap extends AppCompatActivity {
                         Toast.makeText(Dangnhap.this, "Lỗi Đăng nhập", Toast.LENGTH_SHORT).show();
                 }
             });
+
 
         }
 
