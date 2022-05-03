@@ -129,6 +129,10 @@ public class NoteAdapter extends BaseAdapter {
 
 
 
+
+
+
+
     }
 
     public void  clickDeleteNote(Note note){

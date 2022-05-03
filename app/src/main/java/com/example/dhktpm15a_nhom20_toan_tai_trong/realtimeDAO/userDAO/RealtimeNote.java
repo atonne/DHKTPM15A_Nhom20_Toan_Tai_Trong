@@ -8,10 +8,15 @@ import androidx.annotation.Nullable;
 
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.Note;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.User;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RealtimeNote {
     private FirebaseDatabase database ;
@@ -44,8 +49,24 @@ public class RealtimeNote {
         return myRef.orderByChild("idNote").startAt(id);
     }
 
-    public Query getAllNote(){
-        return myRef;
+    public List<Note> getAllNote(int idUser){
+        List<Note> lsNote = new ArrayList<>();
+        myRef.orderByChild("idUser").equalTo(idUser).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot s : snapshot.getChildren()){
+                    Note n = s.getValue(Note.class);
+                    if(n!= null)
+                        lsNote.add(n);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return lsNote;
     }
 
     public void deleteNoteById(int idNote){
@@ -53,5 +74,7 @@ public class RealtimeNote {
     }
 
 
-
+    public Query getRef(){
+        return myRef;
+    }
 }

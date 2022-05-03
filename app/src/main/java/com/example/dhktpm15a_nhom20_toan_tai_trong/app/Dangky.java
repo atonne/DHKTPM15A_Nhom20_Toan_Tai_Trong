@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.R;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.UserDAO;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.database.NoteDatabase;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.Note;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.User;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.realtimeDAO.userDAO.RealtimeUser;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -28,12 +29,22 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Dangky extends AppCompatActivity {
     TextView tvlogin;
     ImageView imggoogle;
     Button btndangky;
     EditText txtemail,txtpass,txtrepass,txthoten;
+
+    private  UserDAO userDAO;
+    private RealtimeUser realtimeUser;
+
     private FirebaseAuth mauth;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 0;
@@ -42,6 +53,12 @@ public class Dangky extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dangki);
         mauth= FirebaseAuth.getInstance();
+
+         userDAO= NoteDatabase.getInstance(getApplicationContext()).getUserDAO();
+         realtimeUser = new RealtimeUser(getApplicationContext());
+
+        addAllUserFromRealtime();
+
         anhxa();
         createrequest();
 
@@ -143,10 +160,11 @@ public class Dangky extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(Dangky.this, "Tạo tài khoản thành công", Toast.LENGTH_SHORT).show();
+
+
                     User user = new User(txthoten.getText().toString().trim(),email,-1);
 
-                    UserDAO userDAO = NoteDatabase.getInstance(getApplicationContext()).getUserDAO();
-                    RealtimeUser realtimeUser = new RealtimeUser(getApplicationContext());
+
 
                     userDAO.addUser(user);
                     realtimeUser.addUser(userDAO.getUserFromEmail(user.getEmail()));
@@ -155,10 +173,48 @@ public class Dangky extends AppCompatActivity {
                     startActivity(intent);
 
                 }else{
-                    Toast.makeText(Dangky.this, "Tạo tài khoản khồng thành công", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Dangky.this, "Tạo tài khoản không thành công", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
+    }
+
+    public void addAllUserFromRealtime(){
+
+        realtimeUser.getAllUser().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot s : snapshot.getChildren()){
+                    if(s!= null){
+                        User u = s.getValue(User.class);
+
+                            if(!timUser(u)){
+                                userDAO.addUser(u);
+                            }
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
+
+    public boolean timUser(User user){
+        List<User> ls = userDAO.getAllUser();
+        for(User u : ls){
+            if(u.getIdUser() == user.getIdUser()){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
