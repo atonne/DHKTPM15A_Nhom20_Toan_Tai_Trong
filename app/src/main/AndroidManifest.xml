@@ -16,11 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DHKTPM15A_Nhom20_Toan_Tai_Trong">
 
+
         <activity
             android:name=".app.ChiTietNote"
             android:exported="false" />
-        <activity
-            android:name=".app.ChiTietTaiKhoan"
+         <activity
+            android:name=".app.Dangnhap"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,8 +31,10 @@
         </activity>
         <activity android:name=".app.Dangky" />
         <activity android:name=".app.MainActivity" />
-        <activity android:name=".app.Dangnhap" />
+
         <activity android:name=".app.TrangChu" />
+        <activity android:name=".app.ChiTietTaiKhoan" />
+
     </application>
 
 </manifest>

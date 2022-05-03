@@ -167,5 +167,8 @@ public class Dangnhap extends AppCompatActivity {
         }
 
     }
+    public void getUserFromRoom(){
+
+    }
 
 }

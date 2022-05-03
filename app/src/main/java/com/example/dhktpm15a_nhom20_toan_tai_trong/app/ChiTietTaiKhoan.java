@@ -74,19 +74,19 @@ public class ChiTietTaiKhoan extends AppCompatActivity  implements View.OnClickL
         edtName.setEnabled(false);
         edtEmail.setEnabled(false);
         edtPass.setEnabled(false);
-        //noteDAO = NoteDatabase.getInstance(this).getNoteDAO();
-        //userDAO = NoteDatabase.getInstance(this).getUserDAO();
-        //userActiveDAO = NoteDatabase.getInstance(this).getUserActive();
-        //Active userActive = userActiveDAO.getUserActive(true);
-        //emailUser = userActive.getEmail();
-        //User u = new User("tp",emailUser,0);
+        noteDAO = NoteDatabase.getInstance(this).getNoteDAO();
+        userDAO = NoteDatabase.getInstance(this).getUserDAO();
+        userActiveDAO = NoteDatabase.getInstance(this).getUserActive();
+        Active userActive = userActiveDAO.getUserActive(true);
+        emailUser = userActive.getEmail();
+        User u = new User("tp",emailUser,0)
+        userDAO.addUser(u);
 
-        //userDAO.addUser(u);
-
-        //userLogin = userDAO.getUserFromEmail(emailUser);
-        //tvName.setText(userLogin.getTenUser());
-        //edtName.setText(userLogin.getTenUser());
-        //edtEmail.setText(userLogin.getEmail());
+        userLogin = userDAO.getUserFromEmail(emailUser);
+        tvName.setText(userLogin.getTenUser());
+        edtName.setText(userLogin.getTenUser());
+        edtEmail.setText(userLogin.getEmail());
+        edtPass.setText(userActive.getPass());
 
         tvQuayLai.setOnClickListener(new View.OnClickListener() {
             @Override

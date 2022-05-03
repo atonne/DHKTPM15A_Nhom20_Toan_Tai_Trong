@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".dialog.DialogAddNote">
+    tools:context=".dialog.DialogLogOut">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="350dp"
@@ -18,51 +18,64 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.101">
 
-        <EditText
-            android:id="@+id/txtDlgAddNote"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:background="@drawable/input_gradient"
-            android:ems="10"
-            android:hint="Nhập tên ghi chú "
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            android:padding="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.209" />
-
         <Button
             android:id="@+id/btnDlgLogoutCo"
             android:layout_width="134dp"
             android:layout_height="50dp"
-            android:layout_marginTop="52dp"
             android:background="@drawable/btn_gradient"
-            android:text="Tạo"
+            android:text="Có"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.953"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtDlgAddNote" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.86" />
 
         <Button
             android:id="@+id/btnDlgLogoutHuy"
             android:layout_width="134dp"
             android:layout_height="50dp"
-            android:layout_marginTop="52dp"
             android:background="@drawable/btn_huy"
-            android:text="Huỷ"
+            android:text="Không"
             android:textAllCaps="false"
             android:textColor="#686868"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnDlgLogoutCo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.009"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtDlgAddNote" />
+            app:layout_constraintTop_toTopOf="@+id/btnDlgLogoutCo" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thông báo"
+            android:textColor="@color/dark_red"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/btnDlgLogoutCo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.111" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bạn có chắc chắn muốn đăng xuất không?"
+            android:textColor="@color/red"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/btnDlgLogoutCo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.63" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

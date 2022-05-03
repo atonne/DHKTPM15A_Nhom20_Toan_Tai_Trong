@@ -15,6 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dhktpm15a_nhom20_toan_tai_trong.R;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.UserDAO;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.database.NoteDatabase;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.User;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.realtimeDAO.userDAO.RealtimeUser;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -100,7 +104,7 @@ public class Dangky extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             Toast.makeText(this, account.getEmail().toString(), Toast.LENGTH_SHORT).show();
-            Intent intent=new Intent(this,MainActivity.class);
+            Intent intent=new Intent(this,TrangChu.class);
             startActivity(intent);
             // Signed in successfully, show authenticated UI.
 
@@ -139,6 +143,14 @@ public class Dangky extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(Dangky.this, "Tạo tài khoản thành công", Toast.LENGTH_SHORT).show();
+                    User user = new User(txthoten.getText().toString().trim(),email,-1);
+
+                    UserDAO userDAO = NoteDatabase.getInstance(getApplicationContext()).getUserDAO();
+                    RealtimeUser realtimeUser = new RealtimeUser(getApplicationContext());
+
+                    userDAO.addUser(user);
+                    realtimeUser.addUser(userDAO.getUserFromEmail(user.getEmail()));
+
                     Intent intent=new Intent(Dangky.this, Dangnhap.class);
                     startActivity(intent);
 

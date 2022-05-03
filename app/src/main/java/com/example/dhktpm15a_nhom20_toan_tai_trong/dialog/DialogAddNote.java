@@ -39,8 +39,8 @@ public class DialogAddNote extends Dialog {
         setContentView(R.layout.dialog_add_note);
 
         this.txtName = (EditText) findViewById(R.id.txtDlgAddNote);
-        this.btnTao = (Button) findViewById(R.id.btnDlgAddNote);
-        this.btnHuy  = (Button) findViewById(R.id.btnDlgAddHuy);
+        this.btnTao = (Button) findViewById(R.id.btnDlgLogoutCo);
+        this.btnHuy  = (Button) findViewById(R.id.btnDlgLogoutHuy);
 
         this.btnTao .setOnClickListener(new View.OnClickListener() {
             @Override
