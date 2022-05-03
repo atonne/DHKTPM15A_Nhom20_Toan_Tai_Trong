@@ -155,7 +155,7 @@ public class Dangky extends AppCompatActivity {
                     startActivity(intent);
 
                 }else{
-                    Toast.makeText(Dangky.this, "Tạo tài khoản khồng thành công", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Dangky.this, "Tạo tài khoản không thành công", Toast.LENGTH_SHORT).show();
                 }
             }
         });
