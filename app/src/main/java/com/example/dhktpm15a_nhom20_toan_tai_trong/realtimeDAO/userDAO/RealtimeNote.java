@@ -60,7 +60,6 @@ public class RealtimeNote {
                         lsNote.add(n);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

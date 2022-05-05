@@ -25,6 +25,7 @@ import com.example.dhktpm15a_nhom20_toan_tai_trong.dao.UserDAO;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.database.NoteDatabase;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.Active;
 import com.example.dhktpm15a_nhom20_toan_tai_trong.entity.User;
+import com.example.dhktpm15a_nhom20_toan_tai_trong.realtimeDAO.userDAO.RealtimeUser;
 
 import java.io.IOException;
 
@@ -44,12 +45,16 @@ public class ChiTietTaiKhoan extends AppCompatActivity  implements View.OnClickL
     private User userLogin;
     private ActiveDAO userActiveDAO;
     private ImageButton btnEdtName, btnEdtEmail, btnEdtPass;
-    private Button btnLuu;
+    private Button btnLuu, btnDongBo;
+    private RealtimeUser realtimeUser;
+    private Uri mUri;
+    private Uri dUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chitiettaikhoan);
         TextView tvQuayLai = findViewById(R.id.tv_quaylai_chitietnode);
+        realtimeUser = new RealtimeUser(this);
         tvName = findViewById(R.id.tv_name);
         edtName = findViewById(R.id.edt_name);
         edtEmail = findViewById(R.id.edt_email);
@@ -70,6 +75,13 @@ public class ChiTietTaiKhoan extends AppCompatActivity  implements View.OnClickL
                 edtName.setEnabled(true);
             }
         });
+        btnEdtPass = findViewById(R.id.imgB_editpass);
+        btnEdtPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                edtPass.setEnabled(true);
+            }
+        });
 
         edtName.setEnabled(false);
         edtEmail.setEnabled(false);
@@ -79,15 +91,15 @@ public class ChiTietTaiKhoan extends AppCompatActivity  implements View.OnClickL
         userActiveDAO = NoteDatabase.getInstance(this).getUserActive();
         Active userActive = userActiveDAO.getUserActive(true);
         emailUser = userActive.getEmail();
-        User u = new User("tp",emailUser,0)
-        userDAO.addUser(u);
+
 
         userLogin = userDAO.getUserFromEmail(emailUser);
         tvName.setText(userLogin.getTenUser());
         edtName.setText(userLogin.getTenUser());
         edtEmail.setText(userLogin.getEmail());
         edtPass.setText(userActive.getPass());
-
+        //dUri = Uri.parse(userLogin.getImg());
+        //loadImage(dUri);
         tvQuayLai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,15 +121,32 @@ public class ChiTietTaiKhoan extends AppCompatActivity  implements View.OnClickL
         btnLuu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkThongTin()){
                    String tenUser = edtName.getText().toString();
                    String email = edtEmail.getText().toString();
                    String pass = edtPass.getText().toString();
-                  //User user = new User()
+                   //String img = mUri.toString();
+                    User u = new User(tenUser, email, 0);
+                  // realtimeUser.addUser(u);
+                    userDAO.updateUser(u);
+                }
+
+        });
+
+        btnDongBo = findViewById(R.id.btnDongBo);
+        btnDongBo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checkThongTin()){
+                    String tenUser = edtName.getText().toString();
+                    String email = edtEmail.getText().toString();
+                    String pass = edtPass.getText().toString();
+                    //String img = mUri.toString();
+                    User u = new User(tenUser, email, 0);
+
+                    realtimeUser.addUser(u);
                 }
             }
         });
-
 
     }
     private void openImagePicker(){
@@ -125,7 +154,8 @@ public class ChiTietTaiKhoan extends AppCompatActivity  implements View.OnClickL
             @Override
             public void onImageSelected(Uri uri) {
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                    mUri = uri;
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mUri);
                     BitmapDrawable ob = new BitmapDrawable(getResources(), bitmap);
                     Bitmap originalBitmap = bitmap;
                     Bitmap resizedBitmap = Bitmap.createScaledBitmap(
@@ -144,7 +174,20 @@ public class ChiTietTaiKhoan extends AppCompatActivity  implements View.OnClickL
                 .create();
         tedBottomPicker.show(getSupportFragmentManager());
     }
+    public void loadImage(Uri uri){
+        try {
 
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+            BitmapDrawable ob = new BitmapDrawable(getResources(), bitmap);
+            Bitmap originalBitmap = bitmap;
+            Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                    originalBitmap, 450, 350, false);
+            imgB.setImageBitmap(resizedBitmap);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private boolean checkThongTin(){
         String tenUser = edtName.getText().toString();
         String email = edtEmail.getText().toString();
@@ -158,6 +201,9 @@ public class ChiTietTaiKhoan extends AppCompatActivity  implements View.OnClickL
             Toast.makeText(this, "Email nhập không chính xác.", Toast.LENGTH_SHORT).show();
             return false;
         }
+            if(TextUtils.isEmpty(pass)){
+                Toast.makeText(this, "Vui lòng nhập mật khẩu", Toast.LENGTH_SHORT).show();
+            }
 
         return true;
     }
