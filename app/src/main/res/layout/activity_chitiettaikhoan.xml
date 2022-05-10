@@ -7,16 +7,28 @@
     android:background="@color/red"
     tools:context=".app.Dangnhap">
 
+    <TextView
+        android:id="@+id/tv_quaylai_chitietnode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/return_arrow"
+        android:text="  Quay lại"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="670dp"
-        android:layout_marginTop="17dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
         android:background="@drawable/botronbutton"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_quaylai_chitietnode" >
+        app:layout_constraintTop_toBottomOf="@+id/tv_quaylai_chitietnode">
 
         <Button
             android:id="@+id/btnLuu"
@@ -152,19 +164,5 @@
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/tv_quaylai_chitietnode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:drawableLeft="@drawable/return_arrow"
-        android:text="  Quay lại"
-        android:textColor="@color/white"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

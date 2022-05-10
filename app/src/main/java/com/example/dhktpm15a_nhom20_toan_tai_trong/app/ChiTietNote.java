@@ -59,7 +59,7 @@ public class ChiTietNote extends AppCompatActivity {
                 note.setContent(content);
                 noteDAO.upadteNote(note);
 
-                realtimeNote.addNote(note);
+                //realtimeNote.addNote(note);
 
 
 
